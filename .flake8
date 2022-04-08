@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 120
+import-order-style = google
+exclude = .eggs, build, env, mapbox
+application_import_names = vt2pbf, tests
+inline-quotes = single
+docstring-quotes = """
