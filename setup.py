@@ -9,13 +9,19 @@ requires = (
     'protobuf>=3.20.0,<4',
 )
 
+with open('README.md', 'r', encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='vt2pbf',
-    packages=find_packages(include=packages),
     version='0.0.2',
     description='Python library for encoding mapbox vector tiles into pbf',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='DenysMoskalenko',
     license='MIT',
+    url='https://github.com/DenysMoskalenko/vt2pbf',
+    packages=find_packages(include=packages),
     install_requires=requires,
     setup_requires=['pytest-runner'],
     tests_require=['pytest>=7.1.1<8'],

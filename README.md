@@ -1,1 +1,1 @@
-# Convert VectorTiles into PBF
+# Encode VectorTiles into PBF

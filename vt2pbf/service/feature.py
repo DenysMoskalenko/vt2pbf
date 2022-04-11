@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Point:
     def __init__(self, x, y):
         self.x = int(x)
@@ -35,11 +38,11 @@ class Feature:
         feature.type = self.feature_type
         return feature
 
-    def add_geometry(self, geometry: list[list[list[int]]]):
+    def add_geometry(self, geometry: List[List[List[int]]]):
         geometry = self._encode_feature_geometry(geometry)
         self.feature.geometry.extend(geometry)
 
-    def _encode_feature_geometry(self, raw_geometry: list[list[list[int]]]) -> list[int]:
+    def _encode_feature_geometry(self, raw_geometry: List[List[List[int]]]) -> List[int]:
         geometry = self._load_geometry(raw_geometry)
         x = 0
         y = 0
@@ -66,7 +69,7 @@ class Feature:
         return geom
 
     @staticmethod
-    def _load_geometry(raw_geometry: list) -> list[list[Point]]:
+    def _load_geometry(raw_geometry: list) -> List[List[Point]]:
         rings = raw_geometry
         geometry = []
         for i in range(len(rings)):

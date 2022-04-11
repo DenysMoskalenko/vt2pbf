@@ -1,3 +1,5 @@
+from typing import List
+
 from vt2pbf.config import EXTEND
 from vt2pbf.exceptions import LayerExistError
 from vt2pbf.mapbox import vector_tile_pb2
@@ -19,7 +21,7 @@ class PBF:
     def serialize_to_bytestring(self) -> bytes:
         return self.pbf.SerializeToString()
 
-    def add_layer(self, name: str, features: list[dict]):
+    def add_layer(self, name: str, features: List[dict]):
         if name in self._layers:
             raise LayerExistError('Layer with this name already exist in the tile')
 
