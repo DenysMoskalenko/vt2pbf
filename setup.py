@@ -3,6 +3,7 @@ from setuptools import find_packages, setup
 packages = (
     'vt2pbf',
     'vt2pbf.mapbox',
+    'vt2pbf.service',
 )
 requires = (
     'protobuf>=3.20.0,<4',
@@ -11,8 +12,7 @@ requires = (
 setup(
     name='vt2pbf',
     packages=find_packages(include=packages),
-    include_package_data=True,
-    version='0.0.1',
+    version='0.0.2',
     description='Python library for encoding mapbox vector tiles into pbf',
     author='DenysMoskalenko',
     license='MIT',
