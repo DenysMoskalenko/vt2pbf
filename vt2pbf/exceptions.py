@@ -1,10 +1,14 @@
-class ParseVectorTileError(Exception):
+class EncodeVectorTileError(Exception):
     pass
 
 
-class LayerExistError(ParseVectorTileError):
+class LayerExistError(EncodeVectorTileError):
     pass
 
 
-class InvalidFeatureError(ParseVectorTileError):
+class InvalidFeatureError(EncodeVectorTileError):
+    pass
+
+
+class WrongFeatureTypeError(InvalidFeatureError):
     pass

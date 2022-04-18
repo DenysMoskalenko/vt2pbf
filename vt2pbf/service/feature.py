@@ -1,17 +1,15 @@
-from typing import List
+from typing import List, Union
+
+from vt2pbf.exceptions import WrongFeatureTypeError
 
 
-class Point:
-    def __init__(self, x, y):
-        self.x = int(x)
-        self.y = int(y)
-
-
-def command(cmd, length):
+def command(cmd: int, length: int) -> int:
     return (length << 3) | (cmd & 0x7)
 
 
-def zigzag(delta):
+def zigzag(delta: Union[int, float]) -> int:
+    if isinstance(delta, float):
+        delta = int(delta)
     return (delta << 1) ^ (delta >> 31)
 
 
@@ -38,48 +36,6 @@ class Feature:
         feature.type = self.feature_type
         return feature
 
-    def add_geometry(self, geometry: List[List[List[int]]]):
-        geometry = self._encode_feature_geometry(geometry)
-        self.feature.geometry.extend(geometry)
-
-    def _encode_feature_geometry(self, raw_geometry: List[List[List[int]]]) -> List[int]:
-        geometry = self._load_geometry(raw_geometry)
-        x = 0
-        y = 0
-        rings = len(geometry)
-        geom = []
-        for r in range(rings):
-            ring = geometry[r]
-            count = 1
-            if self.feature_type == 1:
-                count = len(ring)
-            geom.append(command(1, count))
-            line_count = len(ring) - 1 if self.feature_type == 3 else len(ring)
-            for i in range(line_count):
-                if i == 1 and self.feature_type != 1:
-                    geom.append(command(2, line_count - 1))
-                dx = ring[i].x - x
-                dy = ring[i].y - y
-                geom.append(zigzag(dx))
-                geom.append(zigzag(dy))
-                x += dx
-                y += dy
-            if self.feature_type == 3:
-                geom.append(command(7, 1))  # closepath
-        return geom
-
-    @staticmethod
-    def _load_geometry(raw_geometry: list) -> List[List[Point]]:
-        rings = raw_geometry
-        geometry = []
-        for i in range(len(rings)):
-            ring = rings[i]
-            new_ring = []
-            for j in range(len(ring)):
-                new_ring.append(Point(x=ring[j][0], y=ring[j][1]))
-            geometry.append(new_ring)
-        return geometry
-
     def add_tags(self, tags: dict):
         for k, v in tags.items():
             if v is None:
@@ -94,17 +50,48 @@ class Feature:
             if v not in self._layer.value_indices:
                 self._layer.value_indices[v] = self._layer.last_value_idx
                 self._layer.last_value_idx += 1
-                value = self._layer_pbf.values.add()
-                if isinstance(v, bool):
-                    value.bool_value = v
-                elif isinstance(v, str):
-                    value.string_value = v
-                elif isinstance(v, int):
-                    # value.int_value = v
-                    if v < 0:
-                        value.sint_value = v
-                    else:
-                        value.uint_value = v
-                elif isinstance(v, float):
-                    value.double_value = v
+                self._write_value(instance=self._layer_pbf.values.add(), value=v)
             self.feature.tags.append(self._layer.value_indices[v])
+
+    @staticmethod
+    def _write_value(instance, value: Union[bool, str, int, float]):
+        if isinstance(value, bool):
+            instance.bool_value = value
+        elif isinstance(value, str):
+            instance.string_value = value
+        elif isinstance(value, float):
+            instance.double_value = value
+        elif isinstance(value, int):
+            # setattr(instance, 'sint_value' if value < 0 else 'unit_value', value)
+            if value < 0:
+                instance.sint_value = value
+            else:
+                instance.uint_value = value
+        else:
+            raise WrongFeatureTypeError(f'{value} type is not support, must be one of [bool, str, int, float]')
+
+    def add_geometry(self, geometry: List[List[List[int]]]):
+        encoded_geometry = self._encode_feature_geometry(geometry)
+        self.feature.geometry.extend(encoded_geometry)
+
+    def _encode_feature_geometry(self, raw_geometry: List[List[List[int]]]) -> List[int]:
+        x = 0
+        y = 0
+        result = []
+        for ring in raw_geometry:
+            count = len(ring) if self.feature_type == 1 else 1
+            result.append(command(1, count))
+
+            line_count = len(ring) - 1 if self.feature_type == 3 else len(ring)
+            for i in range(line_count):
+                if i == 1 and self.feature_type != 1:
+                    result.append(command(2, line_count - 1))
+                dx = ring[i][0] - x
+                dy = ring[i][1] - y
+                result.append(zigzag(dx))
+                result.append(zigzag(dy))
+                x += dx
+                y += dy
+            if self.feature_type == 3:
+                result.append(command(7, 1))  # closepath
+        return result

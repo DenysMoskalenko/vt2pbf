@@ -6,7 +6,7 @@ packages = (
     'vt2pbf.service',
 )
 requires = (
-    'protobuf>=3.20.0,<4',
+    'protobuf>=3.6.0,<4',
 )
 
 with open('README.md', 'r', encoding='utf-8') as f:
@@ -14,8 +14,8 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='vt2pbf',
-    version='0.0.2',
-    description='Python library for encoding mapbox vector tiles into pbf',
+    version='0.1.0',
+    description='Python library for encoding mapbox vector tiles into tile_pbf',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='DenysMoskalenko',
