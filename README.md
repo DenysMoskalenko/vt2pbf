@@ -1,4 +1,4 @@
-# geojson2vt
+# vt2pbf
 Python port of [JS vt-pbf](https://github.com/mapbox/vt-pbf) to Encode [Mapbox vector tiles](https://github.com/mapbox/vector-tile-spec) to binary protobufs in python.
 Right now available only version 2 of mapbox vector tiles spec
 
