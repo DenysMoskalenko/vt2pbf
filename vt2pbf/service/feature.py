@@ -70,7 +70,8 @@ class Feature:
         else:
             raise WrongFeatureTypeError(f'{value} type is not support, must be one of [bool, str, int, float]')
 
-    def add_geometry(self, geometry: List[List[List[int]]]):
+    def add_geometry(self, geometry: Union[List[List[int]], List[List[List[int]]]]):
+        geometry = [geometry] if self.feature_type == 1 else geometry
         encoded_geometry = self._encode_feature_geometry(geometry)
         self.feature.geometry.extend(encoded_geometry)
 
