@@ -24,7 +24,8 @@ class Layer:
         self._validate_feature(feature_info)
         feature = Feature(layer=self, feature_type=feature_info['type'], feature_id=feature_id)
         feature.add_tags(tags=feature_info['tags'])
-        feature.add_geometry(geometry=feature_info['geometry'])
+        geometry = [feature_info['geometry']] if feature_info['type'] == 1 else feature_info['geometry']
+        feature.add_geometry(geometry=geometry)
 
     @staticmethod
     def _validate_feature(feature_info: dict):
