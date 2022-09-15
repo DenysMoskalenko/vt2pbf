@@ -78,6 +78,8 @@ class Feature:
         x = 0
         y = 0
         result = []
+        # handle point feature type
+        raw_geometry = [raw_geometry] if self.feature_type == 1 else raw_geometry
         for ring in raw_geometry:
             count = len(ring) if self.feature_type == 1 else 1
             result.append(command(1, count))
