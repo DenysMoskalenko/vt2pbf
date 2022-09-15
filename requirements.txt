@@ -1,0 +1,7 @@
+coverage>=6,<7
+flake8>=5,<6
+flake8-import-order>=0.18.1,<1
+flake8-print>=4,<6
+flake8-quotes>=3.3.1,<4
+protobuf>=3.6.0,<3.20
+pytest>=7,<8
