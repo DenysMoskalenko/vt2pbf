@@ -6,7 +6,7 @@ packages = (
     'vt2pbf.service',
 )
 requires = (
-    'protobuf>=3.6.0,<4',
+    'protobuf>=3.6.0,<5',
 )
 
 with open('README.md', 'r', encoding='utf-8') as f:
