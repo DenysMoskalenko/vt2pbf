@@ -22,7 +22,9 @@ class Layer:
 
     def add_feature(self, feature_info: dict, feature_id: int = None):
         self._validate_feature(feature_info)
-        feature = Feature(layer=self, feature_type=feature_info['type'], feature_id=feature_id)
+        feature = Feature(
+            layer=self, feature_type=feature_info['type'], feature_id=feature_id or feature_info.get('id')
+        )
         feature.add_tags(tags=feature_info['tags'])
         feature.add_geometry(geometry=feature_info['geometry'])
 
