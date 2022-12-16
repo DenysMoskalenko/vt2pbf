@@ -2,6 +2,9 @@ name: Lint and Test
 
 on:
   push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   linter:
@@ -9,7 +12,7 @@ jobs:
       fail-fast: true
       matrix:
         os: ["ubuntu-20.04"]
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
     defaults:
       run:
         shell: bash
@@ -32,7 +35,7 @@ jobs:
       fail-fast: true
       matrix:
         os: ["ubuntu-20.04"]
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
     defaults:
       run:
         shell: bash
