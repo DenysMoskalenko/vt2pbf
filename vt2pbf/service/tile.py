@@ -2,8 +2,13 @@ from typing import List
 
 from vt2pbf.config import EXTEND
 from vt2pbf.exceptions import LayerExistError
-from vt2pbf.mapbox import vector_tile_pb2
 from vt2pbf.service.layer import Layer
+
+from google import protobuf
+if int(protobuf.__version__.split(".")[0]) < 4:
+    from vt2pbf.mapbox.protobuf_3 import vector_tile_pb2
+else:
+    from vt2pbf.mapbox.protobuf_4 import vector_tile_pb2
 
 
 class Tile:
