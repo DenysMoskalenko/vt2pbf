@@ -14,7 +14,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='vt2pbf',
-    version='0.1.3',
+    version='0.1.4',
     description='Python library for encoding mapbox vector tiles into tile_pbf',
     long_description=long_description,
     long_description_content_type='text/markdown',
