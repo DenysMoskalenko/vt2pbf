@@ -10,7 +10,7 @@ Install using pip.
 pip install vt2pbf
 ```
 
-Import `geojson2vt`
+Import `vt2pbf`
 ```python
 from vt2pbf import vt2pbf
 ```
