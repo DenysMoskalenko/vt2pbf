@@ -6,10 +6,19 @@ from vt2pbf.config import EXTEND
 from vt2pbf.exceptions import LayerExistError
 from vt2pbf.service.layer import Layer
 
-if int(protobuf.__version__.split('.')[0]) < 4:
+protobuf_major_version = int(protobuf.__version__.split('.')[0])
+
+if protobuf_major_version < 4:
     from vt2pbf.mapbox.protobuf_3 import vector_tile_pb2
-else:
+elif protobuf_major_version == 4:
     from vt2pbf.mapbox.protobuf_4 import vector_tile_pb2
+elif protobuf_major_version == 5:
+    from vt2pbf.mapbox.protobuf_5 import vector_tile_pb2
+elif protobuf_major_version == 6:
+    from vt2pbf.mapbox.protobuf_6 import vector_tile_pb2
+else:
+    # Default to protobuf_6 for versions 7 and above
+    from vt2pbf.mapbox.protobuf_6 import vector_tile_pb2
 
 
 class Tile:
