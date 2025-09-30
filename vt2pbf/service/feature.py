@@ -18,11 +18,11 @@ class Feature:
 
     def __init__(self, layer, feature_type: int, feature_id: int = None):
         """
-            Leading the mapbox proto spec, feature type must follow next schema:
-                 UNKNOWN = 0;
-                 POINT = 1;
-                 LINESTRING = 2;
-                 POLYGON = 3;
+        Leading the mapbox proto spec, feature type must follow next schema:
+             UNKNOWN = 0;
+             POINT = 1;
+             LINESTRING = 2;
+             POLYGON = 3;
         """
         self._layer = layer
         self._layer_pbf = layer.layer_pbf

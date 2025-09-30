@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vt2pbf"
+version = "0.1.6"
+description = "Python library for encoding mapbox vector tiles into tile_pbf"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "DenysMoskalenko" }
+]
+urls = { Homepage = "https://github.com/DenysMoskalenko/vt2pbf" }
+dependencies = [
+    "protobuf>=3.7.0,<7",
+]
+requires-python = ">=3.7"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7,<8",
+    "coverage>=6,<7",
+    "ruff>=0.13.2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["vt2pbf"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+exclude = [
+    ".venv",
+    "vt2pbf/mapbox",
+]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "T20",
+]
+pydocstyle.convention = "google"
+
+[tool.ruff.lint.isort]
+known-local-folder = ["vt2pbf", "tests"]
+split-on-trailing-comma = true
+combine-as-imports = true
+case-sensitive = false
+detect-same-package = true
+order-by-type = false
+force-sort-within-sections = true
