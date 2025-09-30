@@ -5,10 +5,12 @@ packages = (
     'vt2pbf.mapbox',
     'vt2pbf.mapbox.protobuf_3',
     'vt2pbf.mapbox.protobuf_4',
+    'vt2pbf.mapbox.protobuf_5',
+    'vt2pbf.mapbox.protobuf_6',
     'vt2pbf.service',
 )
 requires = (
-    'protobuf>=3.6.0,<5',
+    'protobuf>=3.6.0,<7',
 )
 
 with open('README.md', 'r', encoding='utf-8') as f:
