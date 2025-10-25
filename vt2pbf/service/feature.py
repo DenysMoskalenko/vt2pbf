@@ -43,10 +43,7 @@ class Feature:
 
             # as dict keys, False == 0, True == 1
             # see https://stackoverflow.com/q/22275027
-            if isinstance(v, bool):
-                v_ = str(v)
-            else:
-                v_ = v
+            v_ = f"{type(v)}:{v}"
 
             if k not in self._layer.key_indices:
                 self._layer.key_indices[k] = self._layer.last_key_idx

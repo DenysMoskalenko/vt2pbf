@@ -11,6 +11,7 @@ def test_none_tag_values_are_ignored():
     # Only 'a' and 'c' should be encoded -> 2 keys and 2 values = 4 tag indices
     assert len(feature.feature.tags) == 4
 
+
 def test_correct_type_encoded():
     tile = Tile()
     layer = Layer(tile.tile_pbf, 'tags')
@@ -22,6 +23,8 @@ def test_correct_type_encoded():
         "int_0": 0,
         "str_1": "1",
         "str_0": "0",
+        "str_True": "True",
+        "str_False": "False",
     })
     # all these tags should be separate keys and values
-    assert len(feature.feature.tags) == 12
+    assert len(feature.feature.tags) == 16
