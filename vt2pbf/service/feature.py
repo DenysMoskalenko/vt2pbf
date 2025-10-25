@@ -41,17 +41,24 @@ class Feature:
             if v is None:
                 continue
 
+            # as dict keys, False == 0, True == 1
+            # see https://stackoverflow.com/q/22275027
+            if isinstance(v, bool):
+                v_ = str(v)
+            else:
+                v_ = v
+
             if k not in self._layer.key_indices:
                 self._layer.key_indices[k] = self._layer.last_key_idx
                 self._layer.last_key_idx += 1
                 self._layer_pbf.keys.append(k)
             self.feature.tags.append(self._layer.key_indices[k])
 
-            if v not in self._layer.value_indices:
-                self._layer.value_indices[v] = self._layer.last_value_idx
+            if v_ not in self._layer.value_indices:
+                self._layer.value_indices[v_] = self._layer.last_value_idx
                 self._layer.last_value_idx += 1
                 self._write_value(instance=self._layer_pbf.values.add(), value=v)
-            self.feature.tags.append(self._layer.value_indices[v])
+            self.feature.tags.append(self._layer.value_indices[v_])
 
     @staticmethod
     def _write_value(instance, value: Union[bool, str, int, float]):
