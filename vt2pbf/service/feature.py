@@ -41,6 +41,11 @@ class Feature:
             if v is None:
                 continue
 
+            # To stay consistent with the JS implementation, cast all
+            # full-number floats to integer
+            if isinstance(v, float) and (v % 1) == 0:
+                v = int(v)
+
             if k not in self._layer.key_indices:
                 self._layer.key_indices[k] = self._layer.last_key_idx
                 self._layer.last_key_idx += 1
