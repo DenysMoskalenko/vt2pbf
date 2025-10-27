@@ -41,9 +41,23 @@ class Feature:
             if v is None:
                 continue
 
-            # as dict keys, False == 0, True == 1
-            # see https://stackoverflow.com/q/22275027
-            v_ = f"{type(v)}:{v}"
+            # False and True are equal to 0 and 1, respectively, when used as
+            # keys to Python `dict`s, see https://stackoverflow.com/q/22275027
+            #
+            # To avoid collision, store the value as a tuple of type and value
+            # This applies to boolean values, only, and only affects the look-up
+            # table in self._layer.value_indices, not the values written to
+            # protobuf
+
+            # To align the values with the output of the JavaScript
+            # implementation, in which full-number float values and int values
+            # are deduplicated, let’s also cast int to float
+            if isinstance(v, bool):
+                v_ = (type(v), v)
+            elif isinstance(v, int):
+                v_ = float(v)
+            else:
+                v_ = v
 
             if k not in self._layer.key_indices:
                 self._layer.key_indices[k] = self._layer.last_key_idx
