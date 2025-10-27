@@ -29,7 +29,6 @@ def test_correct_type_encoded():
     # all these tags should be separate keys and values
     keys = feature.feature.tags[::2]
     values = feature.feature.tags[1::2]
-    print(keys, values)
     assert len(set(keys)) == 8
     assert len(set(values)) == 8
 
