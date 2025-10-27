@@ -48,16 +48,7 @@ class Feature:
             # This applies to boolean values, only, and only affects the look-up
             # table in self._layer.value_indices, not the values written to
             # protobuf
-
-            # To align the values with the output of the JavaScript
-            # implementation, in which full-number float values and int values
-            # are deduplicated, let’s also cast int to float
-            if isinstance(v, bool):
-                v_ = (type(v), v)
-            elif isinstance(v, int):
-                v_ = float(v)
-            else:
-                v_ = v
+            v_ = (type(v), v) if isinstance(v, bool) else v
 
             if k not in self._layer.key_indices:
                 self._layer.key_indices[k] = self._layer.last_key_idx
