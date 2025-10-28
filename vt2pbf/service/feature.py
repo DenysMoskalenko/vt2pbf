@@ -41,17 +41,26 @@ class Feature:
             if v is None:
                 continue
 
+            # False and True are equal to 0 and 1, respectively, when used as
+            # keys to Python `dict`s, see https://stackoverflow.com/q/22275027
+            #
+            # To avoid collision, store the value as a tuple of type and value
+            # This applies to boolean values, only, and only affects the look-up
+            # table in self._layer.value_indices, not the values written to
+            # protobuf
+            v_ = (type(v), v) if isinstance(v, bool) else v
+
             if k not in self._layer.key_indices:
                 self._layer.key_indices[k] = self._layer.last_key_idx
                 self._layer.last_key_idx += 1
                 self._layer_pbf.keys.append(k)
             self.feature.tags.append(self._layer.key_indices[k])
 
-            if v not in self._layer.value_indices:
-                self._layer.value_indices[v] = self._layer.last_value_idx
+            if v_ not in self._layer.value_indices:
+                self._layer.value_indices[v_] = self._layer.last_value_idx
                 self._layer.last_value_idx += 1
                 self._write_value(instance=self._layer_pbf.values.add(), value=v)
-            self.feature.tags.append(self._layer.value_indices[v])
+            self.feature.tags.append(self._layer.value_indices[v_])
 
     @staticmethod
     def _write_value(instance, value: Union[bool, str, int, float]):
