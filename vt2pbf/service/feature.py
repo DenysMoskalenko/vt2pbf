@@ -41,6 +41,11 @@ class Feature:
             if v is None:
                 continue
 
+            # To stay consistent with the JS implementation, cast all
+            # full-number floats to integer
+            if isinstance(v, float) and (v % 1) == 0:
+                v = int(v)
+
             # False and True are equal to 0 and 1, respectively, when used as
             # keys to Python `dict`s, see https://stackoverflow.com/q/22275027
             #
@@ -49,6 +54,7 @@ class Feature:
             # table in self._layer.value_indices, not the values written to
             # protobuf
             v_ = (type(v), v) if isinstance(v, bool) else v
+
 
             if k not in self._layer.key_indices:
                 self._layer.key_indices[k] = self._layer.last_key_idx
