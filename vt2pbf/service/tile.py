@@ -17,8 +17,7 @@ elif protobuf_major_version == 5:
 elif protobuf_major_version == 6:
     from vt2pbf.mapbox.protobuf_6 import vector_tile_pb2
 else:
-    # Default to protobuf_6 for versions 7 and above
-    from vt2pbf.mapbox.protobuf_6 import vector_tile_pb2
+    from vt2pbf.mapbox.protobuf_7 import vector_tile_pb2
 
 
 class Tile:
@@ -44,4 +43,4 @@ class Tile:
 def parse_from_string(pbf_string: bytes) -> Tile:
     tile = Tile()
     tile.tile_pbf.ParseFromString(pbf_string)
-    return tile.tile_pbf
+    return tile

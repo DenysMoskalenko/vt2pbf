@@ -34,8 +34,15 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
-        protobuf-major: [3, 4, 5, 6]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        protobuf-major: [3, 4, 5, 6, 7]
+        exclude:
+          - python-version: "3.9"
+            protobuf-major: 7
+          - python-version: "3.14"
+            protobuf-major: 3
+          - python-version: "3.14"
+            protobuf-major: 4
     defaults:
       run:
         shell: bash
@@ -59,6 +66,7 @@ jobs:
           if [ "${{ matrix.protobuf-major }}" = "4" ]; then CONSTRAINT='protobuf>=4,<5'; fi
           if [ "${{ matrix.protobuf-major }}" = "5" ]; then CONSTRAINT='protobuf>=5,<6'; fi
           if [ "${{ matrix.protobuf-major }}" = "6" ]; then CONSTRAINT='protobuf>=6,<7'; fi
+          if [ "${{ matrix.protobuf-major }}" = "7" ]; then CONSTRAINT='protobuf>=7,<8'; fi
           uv pip install -e .[dev] "$CONSTRAINT"
       - name: Run Tests
         run: uv run pytest -q

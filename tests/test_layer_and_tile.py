@@ -26,7 +26,7 @@ def test_tile_add_layer_duplicate_raises():
 
 def test_round_trip_encode_and_parse():
     pbf = vt2pbf(VECTOR_TILE)
-    tile_msg = parse_from_string(pbf)
-    # One layer named geojsonLayer by default
-    assert len(tile_msg.layers) == 1
-    assert tile_msg.layers[0].name == 'geojsonLayer'
+    tile = parse_from_string(pbf)
+    assert isinstance(tile, Tile)
+    assert len(tile.tile_pbf.layers) == 1
+    assert tile.tile_pbf.layers[0].name == 'geojsonLayer'

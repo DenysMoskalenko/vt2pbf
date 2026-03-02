@@ -9,4 +9,4 @@ test:
 	pytest
 
 test-coverage:
-	pytest --cov=app --cov-report=term-missing --cov-report=html --cov-fail-under=90
+	pytest --cov=vt2pbf --cov-report=term-missing --cov-report=html --cov-fail-under=90
