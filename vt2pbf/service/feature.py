@@ -55,7 +55,6 @@ class Feature:
             # protobuf
             v_ = (type(v), v) if isinstance(v, bool) else v
 
-
             if k not in self._layer.key_indices:
                 self._layer.key_indices[k] = self._layer.last_key_idx
                 self._layer.last_key_idx += 1
